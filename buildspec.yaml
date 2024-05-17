@@ -3,7 +3,7 @@ version: 0.2
 env:
   #secrets-manager:
     #SONAR_TOKEN: "sonarqube:sonartoken"
-    SONAR_TOKEN: "68914cbba0405c61d471b91db9bde1f38163215c"
+    SONAR_TOKEN: "f4f7a4483d733c4d8bc0382931883ca79f7a2544"
 
 phases:
   install:
@@ -16,4 +16,4 @@ phases:
   build:
     commands:
       - echo "Running Maven build and SonarQube analysis..."
-      - mvn verify sonar:sonar -Dsonar.projectKey=somanaboina_devsecops -Dsonar.organization=somanaboina -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=$SONAR_TOKEN
+      - mvn verify sonar:sonar -Dsonar.projectKey=somanaboina-522_devsecops -Dsonar.organization=somanaboina_522 -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=$SONAR_TOKEN
