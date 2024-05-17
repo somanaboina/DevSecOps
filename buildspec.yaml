@@ -16,4 +16,4 @@ phases:
   build:
     commands:
       - echo "Running Maven build and SonarQube analysis..."
-      - mvn verify sonar:sonar -Dsonar.projectKey=somanaboina-522_devsecops -Dsonar.organization=somanaboina_522 -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=$SONAR_TOKEN
+      - mvn verify sonar:sonar -Dsonar.projectKey=somanaboina-522_devsecops -Dsonar.organization=somanaboina-522 -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=$SONAR_TOKEN
