@@ -1,8 +1,8 @@
 version: 0.2
 
 env:
-  secrets-manager:
-    SONAR_TOKEN: "sonarqube:sonartoken"
+  #secrets-manager:
+    #SONAR_TOKEN: "sonarqube:sonartoken"
     #SONAR_TOKEN: "68914cbba0405c61d471b91db9bde1f38163215c"
 
 phases:
