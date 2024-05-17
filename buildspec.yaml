@@ -1,38 +1,40 @@
 version: 0.2
+
 env:
-  secrets-manager:
-    #TOKEN: sonarqube:sonartoken
+  #secrets-manager:
+    #SONAR_TOKEN: "sonarqube:sonartoken"
+    SONAR_TOKEN: "68914cbba0405c61d471b91db9bde1f38163215c"
+
 phases:
   install:
     commands:
       - apt-get update
-      - apt-get install -y openjdk-17-jdk
+      - apt-get install -y openjdk-17-jdk wget jq
       - export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64
       - export PATH=$JAVA_HOME/bin:$PATH
-      
+
   build:
     commands:
-      - mvn verify sonar:sonar -Dsonar.projectKey=somanaboina_devsecops -Dsonar.organization=somanaboina -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=68914cbba0405c61d471b91db9bde1f38163215c
+      - echo "Running Maven build and SonarQube analysis..."
+      - mvn verify sonar:sonar -Dsonar.projectKey=somanaboina_devsecops -Dsonar.organization=somanaboina -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=$SONAR_TOKEN
       - sleep 5
       - |
-        quality_status=$(curl -s -u 68914cbba0405c61d471b91db9bde1f38163215c: https://sonarcloud.io/api/qualitygates/project_status?projectKey=somanaboina_devsecops | jq -r '.projectStatus.status')
-        echo "SonarCloud analysis status is $quality_status"; 
-        if [ "$quality_status" = "ERROR" ]; then exit 1; fi
+        echo "Checking SonarCloud quality gate status..."
+        quality_status=$(curl -s -u $SONAR_TOKEN: https://sonarcloud.io/api/qualitygates/project_status?projectKey=somanaboina_devsecops | jq -r '.projectStatus.status')
+        echo "SonarCloud analysis status is $quality_status"
+        if [ "$quality_status" = "ERROR" ]; then
+          echo "Quality gate failed. Exiting."
+          exit 1
+        fi
 
-
-#Dynamic Application Security Scan (DAST scan) using OWASP ZAP
-
-    - |-
-        apt-get update
-        apt-get -y install wget
-        apt-get -y install default-jdk
-        wget https://github.com/zaproxy/zaproxy/releases/download/v2.11.1/ZAP_2.11.1_Linux.tar.gz
-        mkdir zap
-        tar -xvf ZAP_2.11.1_Linux.tar.gz
-        cd ZAP_2.11.1
-        ./zap.sh -cmd -quickurl https://fib-uat-pub-app.clari5.net/uac-ui/ -quickprogress -quickout ../zap_report.html 
-        
-#Storing DAST Reports in S3 bucket
+  post_build:
+    commands:
+      - echo "Running OWASP ZAP DAST scan..."
+      - wget https://github.com/zaproxy/zaproxy/releases/download/v2.11.1/ZAP_2.11.1_Linux.tar.gz
+      - mkdir zap && tar -xvf ZAP_2.11.1_Linux.tar.gz -C zap --strip-components=1
+      - cd zap
+      - ./zap.sh -cmd -quickurl https://fib-uat-pub-app.clari5.net/uac-ui/ -quickprogress -quickout ../zap_report.html
+      - cd ..
 
 artifacts:
   files:
