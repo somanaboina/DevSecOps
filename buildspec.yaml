@@ -3,7 +3,7 @@ version: 0.2
 env:
   #secrets-manager:
     #SONAR_TOKEN: "sonarqube:sonartoken"
-    SONAR_TOKEN: "f4f7a4483d733c4d8bc0382931883ca79f7a2544"
+    SONAR_TOKEN: "7c3896c62913eda8b5e99f7c41b80a7cc28f50a7"
 
 phases:
   install:
