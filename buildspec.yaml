@@ -12,10 +12,10 @@ phases:
       
   build:
     commands:
-      - mvn verify sonar:sonar -Dsonar.projectKey=waheed_devsecops -Dsonar.organization=waheed -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=68914cbba0405c61d471b91db9bde1f38163215c
+      - mvn verify sonar:sonar -Dsonar.projectKey=somanaboina_devsecops -Dsonar.organization=waheed -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=68914cbba0405c61d471b91db9bde1f38163215c
       - sleep 5
       - |
-        quality_status=$(curl -s -u 68914cbba0405c61d471b91db9bde1f38163215c: https://sonarcloud.io/api/qualitygates/project_status?projectKey=waheed_devsecops | jq -r '.projectStatus.status')
+        quality_status=$(curl -s -u 68914cbba0405c61d471b91db9bde1f38163215c: https://sonarcloud.io/api/qualitygates/project_status?projectKey=somanaboina_devsecops | jq -r '.projectStatus.status')
         echo "SonarCloud analysis status is $quality_status"; 
         if [ "$quality_status" = "ERROR" ]; then exit 1; fi
 
