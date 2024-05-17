@@ -12,7 +12,7 @@ phases:
       
   build:
     commands:
-      - mvn verify sonar:sonar -Dsonar.projectKey=somanaboina_devsecops -Dsonar.organization=waheed -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=68914cbba0405c61d471b91db9bde1f38163215c
+      - mvn verify sonar:sonar -Dsonar.projectKey=somanaboina_devsecops -Dsonar.organization=somanaboina -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=68914cbba0405c61d471b91db9bde1f38163215c
       - sleep 5
       - |
         quality_status=$(curl -s -u 68914cbba0405c61d471b91db9bde1f38163215c: https://sonarcloud.io/api/qualitygates/project_status?projectKey=somanaboina_devsecops | jq -r '.projectStatus.status')
