@@ -1,7 +1,7 @@
 version: 0.2
 env:
   secrets-manager:
-    TOKEN: sonarqube:sonartoken
+    #TOKEN: sonarqube:sonartoken
 phases:
   install:
     commands:
@@ -12,7 +12,7 @@ phases:
       
   build:
     commands:
-      - mvn verify sonar:sonar -Dsonar.projectKey=waheed_devsecops -Dsonar.organization=waheed -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=$TOKEN
+      - mvn verify sonar:sonar -Dsonar.projectKey=waheed_devsecops -Dsonar.organization=waheed -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=68914cbba0405c61d471b91db9bde1f38163215c
       - sleep 5
       - |
         quality_status=$(curl -s -u $TOKEN: https://sonarcloud.io/api/qualitygates/project_status?projectKey=waheed_devsecops | jq -r '.projectStatus.status')
